@@ -1,0 +1,6 @@
+@AzureCosmosDbConnect_HostAddress = http://localhost:5121
+
+GET {{AzureCosmosDbConnect_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

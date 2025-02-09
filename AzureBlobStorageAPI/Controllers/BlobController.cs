@@ -39,10 +39,10 @@ namespace AzureBlobStorageAPI.Controllers
             }
         }
 
-        [HttpGet("Blob/{path}")]
-        public async Task<ActionResult> GetBlob(string path)
-        {
+        //[HttpGet("Blob/{path}")]
+        //public async Task<ActionResult> GetBlob(string path)
+        //{
 
-        }
+        //}
     }
 }
