@@ -1,4 +1,5 @@
 
+using AzureCosmosDbConnect.ChangeFeedProcessors;
 using AzureCosmosDbConnect.Infrastructure;
 using AzureCosmosDbConnect.Interfaces;
 using AzureCosmosDbConnect.Repositories;
@@ -20,6 +21,7 @@ namespace AzureCosmosDbConnect
 
             builder.Services.AddScoped<DbProvider>();
             builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+            builder.Services.AddHostedService<ToDoChangeFeedProcessor>();
 
             var app = builder.Build();
 

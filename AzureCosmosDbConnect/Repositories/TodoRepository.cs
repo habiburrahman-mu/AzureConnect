@@ -4,96 +4,95 @@ using AzureCosmosDbConnect.Models;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 
-namespace AzureCosmosDbConnect.Repositories
+namespace AzureCosmosDbConnect.Repositories;
+
+public class TodoRepository : ITodoRepository
 {
-    public class TodoRepository : ITodoRepository
+    private readonly DbProvider dbProvider;
+
+    public TodoRepository(DbProvider dbProvider)
     {
-        private readonly DbProvider dbProvider;
+        this.dbProvider = dbProvider;
+    }
 
-        public TodoRepository(DbProvider dbProvider)
+    public async Task<List<ToDo>> GetListAsync()
+    {
+        var container = await GetContainerAsync();
+        var query = container.GetItemLinqQueryable<ToDo>();
+
+        using FeedIterator<ToDo> linqFeed = query.ToFeedIterator();
+
+        var itemList = new List<ToDo>();
+
+        while (linqFeed.HasMoreResults)
         {
-            this.dbProvider = dbProvider;
+            FeedResponse<ToDo> response = await linqFeed.ReadNextAsync();
+            var list = response.ToList();
+            itemList.AddRange(list);
         }
 
-        public async Task<List<ToDo>> GetListAsync()
-        {
-            var container = await GetContainerAsync();
-            var query = container.GetItemLinqQueryable<ToDo>();
+        return itemList;
+    }
 
-            using FeedIterator<ToDo> linqFeed = query.ToFeedIterator();
+    public async Task<ToDo> GetSingleAsync(string id, string partitionKey)
+    {
+        var container = await GetContainerAsync();
+        var itemResponse = container.ReadItemAsync<ToDo>(id: id, partitionKey: new PartitionKey(partitionKey));
+        return itemResponse.Result;
+    }
 
-            var itemList = new List<ToDo>();
+    public async Task<ToDo> AddItemAsync(ToDo toDo)
+    {
+        var container = await GetContainerAsync();
+        var itemResponse = await container.CreateItemAsync(toDo, new PartitionKey(toDo.Category));
+        return itemResponse.Resource;
+    }
 
-            while (linqFeed.HasMoreResults)
-            {
-                FeedResponse<ToDo> response = await linqFeed.ReadNextAsync();
-                var list = response.ToList();
-                itemList.AddRange(list);
-            }
+    public async Task<ToDo> UpdateItemAsync(ToDo toDo)
+    {
+        var container = await GetContainerAsync();
 
-            return itemList;
-        }
+        var replacedItem = await container.ReplaceItemAsync(
+                item: toDo,
+                id: toDo.Id,
+                partitionKey: new PartitionKey(toDo.Category)
+        );
 
-        public async Task<ToDo> GetSingleAsync(string id, string partitionKey)
-        {
-            var container = await GetContainerAsync();
-            var itemResponse = container.ReadItemAsync<ToDo>(id: id, partitionKey: new PartitionKey(partitionKey));
-            return itemResponse.Result;
-        }
+        return replacedItem;
+    }
 
-        public async Task<ToDo> AddItemAsync(ToDo toDo)
-        {
-            var container = await GetContainerAsync();
-            var itemResponse = await container.CreateItemAsync(toDo, new PartitionKey(toDo.Category));
-            return itemResponse.Resource;
-        }
+    public async Task<ToDo> DeleteItemAsync(ToDo toDo)
+    {
+        var container = await GetContainerAsync();
 
-        public async Task<ToDo> UpdateItemAsync(ToDo toDo)
-        {
-            var container = await GetContainerAsync();
-
-            var replacedItem = await container.ReplaceItemAsync(
-                    item: toDo,
-                    id: toDo.Id,
-                    partitionKey: new PartitionKey(toDo.Category)
+        var itemResponse = await container.DeleteItemAsync<ToDo>(
+                id: toDo.Id,
+                partitionKey: new PartitionKey(toDo.Category)
             );
 
-            return replacedItem;
-        }
+        return itemResponse.Resource;
+    }
 
-        public async Task<ToDo> DeleteItemAsync(ToDo toDo)
+    private async Task<Container> GetContainerAsync()
+    {
+        var db = await dbProvider.GetDatabaseAsync();
+
+        ContainerProperties containerProperties = new ContainerProperties
         {
-            var container = await GetContainerAsync();
+            Id = nameof(ToDo),
+            PartitionKeyPath = PartitionKey,
+        };
 
-            var itemResponse = await container.DeleteItemAsync<ToDo>(
-                    id: toDo.Id,
-                    partitionKey: new PartitionKey(toDo.Category)
-                );
+        var containerResponse = await db.CreateContainerIfNotExistsAsync(containerProperties);
 
-            return itemResponse.Resource;
-        }
+        return containerResponse.Container;
+    }
 
-        private async Task<Container> GetContainerAsync()
+    private string PartitionKey
+    {
+        get
         {
-            var db = await dbProvider.GetDatabaseAsync();
-
-            ContainerProperties containerProperties = new ContainerProperties
-            {
-                Id = nameof(ToDo),
-                PartitionKeyPath = PartitionKey,
-            };
-
-            var containerResponse = await db.CreateContainerIfNotExistsAsync(containerProperties);
-
-            return containerResponse.Container;
-        }
-
-        private string PartitionKey
-        {
-            get
-            {
-                return $"/{nameof(ToDo.Category).ToLower()}";
-            }
+            return $"/{nameof(ToDo.Category).ToLower()}";
         }
     }
 }
