@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureBlobStorageAPI", "Azur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureCosmosDbConnect", "AzureCosmosDbConnect\AzureCosmosDbConnect.csproj", "{1C2B667F-6703-41BB-AFC0-18DE8DE90061}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureCacheForRedisConnect", "AzureCacheForRedisConnect\AzureCacheForRedisConnect.csproj", "{A6B88C29-025E-4010-A140-09FE6122525D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1C2B667F-6703-41BB-AFC0-18DE8DE90061}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C2B667F-6703-41BB-AFC0-18DE8DE90061}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C2B667F-6703-41BB-AFC0-18DE8DE90061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B88C29-025E-4010-A140-09FE6122525D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B88C29-025E-4010-A140-09FE6122525D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B88C29-025E-4010-A140-09FE6122525D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B88C29-025E-4010-A140-09FE6122525D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
