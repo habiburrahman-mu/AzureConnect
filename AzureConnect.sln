@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureCacheForRedisConnect",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventGridEventPublisher", "EventGridEventPublisher\EventGridEventPublisher.csproj", "{F913542A-0FA6-491E-B5C8-7B8CF8425BEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureEventHubsSender", "AzureEventHubsSender\AzureEventHubsSender.csproj", "{B88A0791-EF78-494F-808C-215081AC8259}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureEventHubsConsumer", "AzureEventHubsConsumer\AzureEventHubsConsumer.csproj", "{8149B346-CAE0-4CF3-8D7F-5C597704BD80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +37,19 @@ Global
 		{F913542A-0FA6-491E-B5C8-7B8CF8425BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F913542A-0FA6-491E-B5C8-7B8CF8425BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F913542A-0FA6-491E-B5C8-7B8CF8425BEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B88A0791-EF78-494F-808C-215081AC8259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B88A0791-EF78-494F-808C-215081AC8259}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B88A0791-EF78-494F-808C-215081AC8259}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B88A0791-EF78-494F-808C-215081AC8259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8149B346-CAE0-4CF3-8D7F-5C597704BD80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8149B346-CAE0-4CF3-8D7F-5C597704BD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8149B346-CAE0-4CF3-8D7F-5C597704BD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8149B346-CAE0-4CF3-8D7F-5C597704BD80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {152E6FA8-07F7-4CD2-960F-9C027BE830A4}
 	EndGlobalSection
 EndGlobal
